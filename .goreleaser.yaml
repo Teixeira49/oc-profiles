@@ -1,0 +1,63 @@
+# GoReleaser v2 configuration. Release: push a tag vX.Y.Z (see docs/development.md).
+version: 2
+
+project_name: oc-profiles
+
+before:
+  hooks:
+    - go mod verify
+
+builds:
+  - id: oc-profiles
+    main: ./cmd/oc-profiles
+    binary: oc-profiles
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    # Same stamping as `make build`: -X main.version=<version>.
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+    goos: [darwin, linux]
+    goarch: [amd64, arm64]
+
+archives:
+  - id: default
+    formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - LICENSE
+      - NOTICE
+      - README.md
+
+checksum:
+  name_template: checksums.txt
+  algorithm: sha256
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  use: git
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "^ci:"
+      - "Merge pull request"
+  groups:
+    - title: Features
+      regexp: '^.*?feat(\(.+\))??!?:.+$'
+      order: 0
+    - title: Bug fixes
+      regexp: '^.*?fix(\(.+\))??!?:.+$'
+      order: 1
+    - title: Other changes
+      order: 999
+
+release:
+  github:
+    owner: Teixeira49
+    name: oc-profiles
