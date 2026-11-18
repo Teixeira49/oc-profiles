@@ -164,3 +164,13 @@ func TestRenameRollsBackWhenApplyFails(t *testing.T) {
 		t.Fatal("opencode.json changed by a failed rename")
 	}
 }
+
+func TestVersionCommandAndFlag(t *testing.T) {
+	newEnv(t)
+	for _, args := range [][]string{{"version"}, {"--version"}} {
+		out, err := runCmd(t, args...)
+		if err != nil || out != "oc-profiles "+version+"\n" {
+			t.Fatalf("%v: %q %v", args, out, err)
+		}
+	}
+}

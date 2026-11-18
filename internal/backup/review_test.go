@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/teixeira49/oc-profiles/internal/core"
+	"github.com/Teixeira49/oc-profiles/internal/core"
 )
 
 func TestRecoverFallsBackWhenNewestPayloadIsInvalid(t *testing.T) {

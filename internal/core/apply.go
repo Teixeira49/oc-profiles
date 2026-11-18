@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/teixeira49/oc-profiles/internal/ojson"
+	"github.com/Teixeira49/oc-profiles/internal/ojson"
 )
 
 // ApplyResult describes what apply changed (or would change in a dry run).

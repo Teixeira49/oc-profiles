@@ -11,9 +11,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/teixeira49/oc-profiles/internal/backup"
-	"github.com/teixeira49/oc-profiles/internal/core"
-	"github.com/teixeira49/oc-profiles/internal/tui"
+	"github.com/Teixeira49/oc-profiles/internal/backup"
+	"github.com/Teixeira49/oc-profiles/internal/core"
+	"github.com/Teixeira49/oc-profiles/internal/tui"
 )
 
 const usage = `oc-profiles - manage OpenCode ODD profiles
@@ -27,6 +27,7 @@ Usage:
   oc-profiles rename OLD NEW [--no-apply]
                                  rename a profile (keeps its models), then apply
   oc-profiles list               list stored profiles
+  oc-profiles version            print the version (also --version)
   oc-profiles sync               recover the store if needed, re-apply, write a backup snapshot
   oc-profiles backup list        list backup snapshots
   oc-profiles backup restore [--seq N] --yes
@@ -75,6 +76,7 @@ func run(args []string, stdout, stderr io.Writer) error {
 	allowEmpty := fs.Bool("allow-empty", false, "")
 	dryRun := fs.Bool("dry-run", false, "")
 	noApply := fs.Bool("no-apply", false, "")
+	showVersion := fs.Bool("version", false, "")
 	// Flags may appear before, between or after positional arguments.
 	var positional []string
 	for {
@@ -89,6 +91,10 @@ func run(args []string, stdout, stderr io.Writer) error {
 		}
 		positional = append(positional, fs.Arg(0))
 		args = fs.Args()[1:]
+	}
+	if *showVersion || cmd == "version" {
+		fmt.Fprintf(stdout, "oc-profiles %s\n", version)
+		return nil
 	}
 	wantArgs := map[string]int{"rename": 2, "backup": 1}[cmd]
 	if len(positional) != wantArgs {
@@ -229,6 +235,8 @@ func cmdRename(paths core.Paths, oldName, newName string, noApply bool, out io.W
 		fmt.Fprintln(out, "Skipped apply (--no-apply); run `oc-profiles apply` to update opencode.json.")
 		return snapshot(paths, out)
 	}
+	// A rename always changes agent keys, so apply writes opencode.json and
+	// the backup snapshot itself.
 	if err := cmdApply(paths, false, out); err != nil {
 		// Keep the store and opencode.json consistent: undo the rename.
 		if rbErr := core.RestoreProfilesFile(paths, previous); rbErr != nil {
@@ -236,7 +244,7 @@ func cmdRename(paths core.Paths, oldName, newName string, noApply bool, out io.W
 		}
 		return fmt.Errorf("apply failed, rename rolled back (profile is still %q): %w", oldName, err)
 	}
-	return snapshot(paths, out)
+	return nil
 }
 
 func cmdApply(paths core.Paths, dryRun bool, out io.Writer) error {
@@ -272,7 +280,9 @@ func cmdApply(paths core.Paths, dryRun bool, out io.Writer) error {
 }
 
 func printApply(out io.Writer, verb string, paths core.Paths, res core.ApplyResult) {
-	if n := res.MissingCount(); n > 0 {
+	// Agents added without any removal means they had gone missing (for
+	// example after a gentle-ai sync); with removals it is a rename/restore.
+	if n := res.MissingCount(); n > 0 && len(res.Removed) == 0 {
 		fmt.Fprintf(out, "Restored %d missing profile agents.\n", n)
 	}
 	fmt.Fprintf(out, "%s to %s\n", verb, paths.OpencodeJSON())

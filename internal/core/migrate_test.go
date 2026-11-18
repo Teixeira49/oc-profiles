@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/teixeira49/oc-profiles/internal/ojson"
+	"github.com/Teixeira49/oc-profiles/internal/ojson"
 )
 
 // setupV1 writes a gentle-ai 3.7-era opencode.json, SDD asset files and a

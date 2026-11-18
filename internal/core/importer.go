@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/teixeira49/oc-profiles/internal/ojson"
+	"github.com/Teixeira49/oc-profiles/internal/ojson"
 )
 
 // ImportResult summarizes an import.

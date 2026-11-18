@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/teixeira49/oc-profiles/internal/ojson"
+	"github.com/Teixeira49/oc-profiles/internal/ojson"
 )
 
 // builtinAgents are provided by OpenCode itself and need no config entry.

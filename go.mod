@@ -1,4 +1,4 @@
-module github.com/teixeira49/oc-profiles
+module github.com/Teixeira49/oc-profiles
 
 go 1.27.4
 

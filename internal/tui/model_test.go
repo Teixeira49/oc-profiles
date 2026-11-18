@@ -9,8 +9,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/teixeira49/oc-profiles/internal/catalog"
-	"github.com/teixeira49/oc-profiles/internal/core"
+	"github.com/Teixeira49/oc-profiles/internal/catalog"
+	"github.com/Teixeira49/oc-profiles/internal/core"
 )
 
 const fixtureConfig = `{
@@ -345,5 +345,20 @@ func TestRenameFlow(t *testing.T) {
 	m = press(t, m, "enter", "j", "enter")
 	if m.store.Profiles.Find("base-two") < 0 {
 		t.Fatal("cancel renamed the profile")
+	}
+}
+
+func TestEditKeyAlias(t *testing.T) {
+	p := setup(t)
+	if _, _, err := core.Import(p, core.ImportOptions{}); err != nil {
+		t.Fatal(err)
+	}
+	m := New(p, fakeLoader)
+	m = press(t, m, "e")
+	if m.screen != screenName || !m.editMode || m.draft.Name != "base" {
+		t.Fatalf("e did not open edit: %v %v %q", m.screen, m.editMode, m.draft.Name)
+	}
+	if !strings.Contains(press(t, m, "esc").View(), "enter/e: edit") {
+		t.Fatal("help line missing e")
 	}
 }

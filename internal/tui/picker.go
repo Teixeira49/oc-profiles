@@ -9,8 +9,8 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/teixeira49/oc-profiles/internal/catalog"
-	"github.com/teixeira49/oc-profiles/internal/core"
+	"github.com/Teixeira49/oc-profiles/internal/catalog"
+	"github.com/Teixeira49/oc-profiles/internal/core"
 )
 
 type pickerMode int

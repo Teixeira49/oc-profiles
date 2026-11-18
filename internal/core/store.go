@@ -8,7 +8,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/teixeira49/oc-profiles/internal/ojson"
+	"github.com/Teixeira49/oc-profiles/internal/ojson"
 )
 
 // StoreVersion is the current profiles.json / templates.json schema.

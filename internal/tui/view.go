@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/teixeira49/oc-profiles/internal/core"
+	"github.com/Teixeira49/oc-profiles/internal/core"
 )
 
 // View renders the current screen inside the gentle-ai double-border frame.
@@ -130,7 +130,7 @@ func (m Model) viewList() string {
 	options = append(options, "Create new profile", "Quit")
 	b.WriteString(renderOptions(options, m.cursor))
 	b.WriteString("\n")
-	b.WriteString(helpStyle.Render("j/k: navigate • enter: edit • n: new • r: rename • d: delete • a: apply • s: sync • b: backups • esc: quit"))
+	b.WriteString(helpStyle.Render("j/k: navigate • enter/e: edit • n: new • r: rename • d: delete • a: apply • s: sync • b: backups • esc: quit"))
 	return b.String()
 }
 

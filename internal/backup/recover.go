@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/teixeira49/oc-profiles/internal/core"
+	"github.com/Teixeira49/oc-profiles/internal/core"
 )
 
 // stateFile records, inside the store dir, the last snapshot sequence the

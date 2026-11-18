@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/teixeira49/oc-profiles/internal/ojson"
+	"github.com/Teixeira49/oc-profiles/internal/ojson"
 )
 
 const orchestratorPromptFixture = "<!-- gentle-ai:orchestrator -->\n# Gentle AI — ODD Orchestrator Instructions\n\n" +

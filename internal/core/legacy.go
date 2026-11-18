@@ -4,7 +4,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/teixeira49/oc-profiles/internal/ojson"
+	"github.com/Teixeira49/oc-profiles/internal/ojson"
 )
 
 // gentle-ai's own ownership marker for SDD agents it generated.

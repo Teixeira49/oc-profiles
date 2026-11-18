@@ -12,9 +12,9 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"github.com/teixeira49/oc-profiles/internal/backup"
-	"github.com/teixeira49/oc-profiles/internal/catalog"
-	"github.com/teixeira49/oc-profiles/internal/core"
+	"github.com/Teixeira49/oc-profiles/internal/backup"
+	"github.com/Teixeira49/oc-profiles/internal/catalog"
+	"github.com/Teixeira49/oc-profiles/internal/core"
 )
 
 type screen int
@@ -328,6 +328,10 @@ func (m Model) updateList(key string) (tea.Model, tea.Cmd) {
 		return m, tea.Quit
 	case "n":
 		m.startCreate()
+	case "e":
+		if m.cursor < m.profileCount() {
+			m.startEdit(m.store.Profiles.Profiles[m.cursor])
+		}
 	case "a":
 		m.runApply()
 	case "s":
