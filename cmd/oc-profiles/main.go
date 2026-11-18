@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"runtime/debug"
 	"strings"
 
 	"github.com/Teixeira49/oc-profiles/internal/backup"
@@ -43,9 +44,23 @@ Flags (any command):
 `
 
 // version is overridden at build time with -ldflags "-X main.version=...".
-var version = "0.4.0-dev"
+// When unset (e.g. `go install ...@vX.Y.Z`), resolveVersion falls back to the
+// module version recorded in the binary's build info.
+var version = "dev"
+
+func resolveVersion(stamped string, info *debug.BuildInfo, ok bool) string {
+	if stamped != "dev" || !ok || info == nil {
+		return stamped
+	}
+	if v := info.Main.Version; v != "" && v != "(devel)" {
+		return strings.TrimPrefix(v, "v")
+	}
+	return stamped
+}
 
 func main() {
+	info, ok := debug.ReadBuildInfo()
+	version = resolveVersion(version, info, ok)
 	backup.Version = version
 	if err := run(os.Args[1:], os.Stdout, os.Stderr); err != nil {
 		fmt.Fprintln(os.Stderr, "oc-profiles:", err)

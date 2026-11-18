@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"strings"
 	"testing"
 )
@@ -171,6 +172,25 @@ func TestVersionCommandAndFlag(t *testing.T) {
 		out, err := runCmd(t, args...)
 		if err != nil || out != "oc-profiles "+version+"\n" {
 			t.Fatalf("%v: %q %v", args, out, err)
+		}
+	}
+}
+
+func TestResolveVersion(t *testing.T) {
+	mod := func(v string) *debug.BuildInfo { return &debug.BuildInfo{Main: debug.Module{Version: v}} }
+	cases := []struct {
+		name, stamped, want string
+		info                *debug.BuildInfo
+		ok                  bool
+	}{
+		{"ldflags stamp wins", "1.2.3", "1.2.3", mod("v9.9.9"), true},
+		{"go install uses module version", "dev", "0.1.0", mod("v0.1.0"), true},
+		{"local build stays dev", "dev", "dev", mod("(devel)"), true},
+		{"no build info stays dev", "dev", "dev", nil, false},
+	}
+	for _, c := range cases {
+		if got := resolveVersion(c.stamped, c.info, c.ok); got != c.want {
+			t.Errorf("%s: got %q, want %q", c.name, got, c.want)
 		}
 	}
 }

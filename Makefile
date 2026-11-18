@@ -2,7 +2,7 @@ BINARY  := oc-profiles
 BIN_DIR := bin
 # Override with: make install PREFIX=/opt/homebrew/bin
 PREFIX  ?= $(HOME)/.local/bin
-VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null | sed "s/^v//" | grep . || echo 0.4.0-dev)
+VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null | sed "s/^v//" | grep . || echo dev)
 
 .PHONY: build test vet install uninstall clean
 
