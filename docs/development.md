@@ -61,8 +61,8 @@ Releases are built by GoReleaser (`.goreleaser.yaml`, v2 schema) from
 `.github/workflows/release.yml` when a `v*` tag is pushed:
 
 ```sh
-git tag -a v0.4.0 -m "v0.4.0"
-git push origin v0.4.0
+git tag -a v0.2.0 -m "v0.2.0"
+git push origin v0.2.0
 ```
 
 The workflow runs the tests, then builds `darwin` and `linux` for `amd64` and

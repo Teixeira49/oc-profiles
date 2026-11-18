@@ -42,7 +42,7 @@ From a release (pick the version, OS and arch from the
 [releases page](https://github.com/Teixeira49/oc-profiles/releases)):
 
 ```sh
-curl -sSL https://github.com/Teixeira49/oc-profiles/releases/download/v0.4.0/oc-profiles_0.4.0_darwin_arm64.tar.gz \
+curl -sSL https://github.com/Teixeira49/oc-profiles/releases/download/v0.1.0/oc-profiles_0.1.0_darwin_arm64.tar.gz \
   | tar -xz oc-profiles
 install -m 0755 oc-profiles ~/.local/bin/
 ```

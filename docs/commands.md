@@ -267,7 +267,7 @@ Backup snapshot #4 (2026-11-18T17:00:50Z, new)
 
 ```
 $ oc-profiles --version
-oc-profiles 0.4.0
+oc-profiles 0.1.0
 ```
 
 ## `help`
